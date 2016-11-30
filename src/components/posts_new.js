@@ -16,18 +16,14 @@ class PostsNew extends Component {
     // create the blog post has been created, navigate the user to the index
     // we navigate by calling this.context.router.push with the new path
     onSubmit(props) {
-        // console.log(this.props)
-        //console.log(Object.values(this.props.createPost(props).payload))
-        this.props.createPost(props)
-        // Object.values(this.props.createPost(props)[1].indexOf("resolved") != -1 ?
-            this.context.router.push('/')
-        //     : console.log("error submiting")
+        this.props.createPost(props, () => this.context.router.push('/') );
     }
 
     render() {
         // const  handleSubmit  = this.props.handleSubmit;    // ===  //const { handleSubmit } = this.props;
-        
+
         const { fields: {title, categories, content }, handleSubmit } = this.props;
+        
         return (
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
                 <h3>Create A New Post</h3>
@@ -80,6 +76,9 @@ function validate(values) {
     return errors;
 }
 
+
+// connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
+// reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 export default reduxForm({
     form: 'PostsNewForm',
     fields: ['title', 'categories', 'content'],
